@@ -1,0 +1,97 @@
+.project-content-item {
+    padding: 24px;
+}
+
+.project-content-item:nth-child(even) {
+    background: #f9f9f9;
+}
+
+.project-content-item h4 {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0 0 12px 0;
+}
+
+.portfolio-field {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.portfolio-field label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.portfolio-field input,
+.portfolio-field textarea,
+.portfolio-field select {
+    width: 100%;
+    padding: 4px 8px;
+}
+
+
+.portfolio-field textarea {
+    min-height: 120px;
+}
+
+.portfolio-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+
+.col-1 {
+    grid-column: span 1;
+}
+
+.col-2 {
+    grid-column: span 2;
+}
+
+.col-3 {
+    grid-column: span 3;
+}
+
+.col-4 {
+    grid-column: span 4;
+}
+
+
+#add-project-content-item {
+    margin-top: 24px;
+}
+
+.portfolio-row .remove-project-content-item:hover,
+.portfolio-field .remove-project-image {
+    border-color: rgb(197, 44, 44);
+    color: rgb(197, 44, 44);
+    width: max-content;
+    display: flex;
+}
+
+
+.portfolio-field .remove-project-image:hover,
+.portfolio-row .remove-project-content-item {
+    border-color: rgb(177, 33, 33);
+    color: rgb(177, 33, 33);
+    background-color: rgba(212, 30, 30, 0.274);
+}
+
+
+.image-preview-wrapper,
+.btn-container {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.btn-container:has(.remove-project-content-item) {
+    justify-content: center;
+}
+
+.image-preview {
+    max-width: 200px;
+}
