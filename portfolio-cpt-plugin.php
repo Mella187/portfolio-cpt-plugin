@@ -24,7 +24,7 @@ function portfolio_enqueue_admin_assets($hook)
     }
 
     global $post_type;
-    if ('project' !== $post_type) {
+    if ('project' !== $post_type && 'experience' !== $post_type) {
         return;
     }
 
@@ -54,7 +54,7 @@ add_action('admin_enqueue_scripts', 'portfolio_enqueue_admin_assets');
 
 /** Register CPT */
 
-function portfolio_register_post_types()
+function projects_register_cpt()
 {
     register_post_type('project', array(
         'labels' => array(
@@ -79,12 +79,12 @@ function portfolio_register_post_types()
     ));
 }
 
-add_action('init', 'portfolio_register_post_types');
+add_action('init', 'projects_register_cpt');
 
 
 /** Register Custom Taxonomies */
 
-function portfolio_register_taxonomies()
+function projects_register_taxonomies()
 {
     register_taxonomy('project_type', 'project', array(
         'labels' => array(
@@ -96,7 +96,7 @@ function portfolio_register_taxonomies()
         'show_in_rest' => true,
     ));
 
-    register_taxonomy('technology', 'project', array(
+    register_taxonomy('technology',  array('project', 'experience'), array(
         'labels' => array(
             'name' => 'Technologies',
             'singular_name' => 'Technology',
@@ -108,11 +108,11 @@ function portfolio_register_taxonomies()
         'meta_box_cb' => 'post_tags_meta_box',
     ));
 }
-add_action('init', 'portfolio_register_taxonomies');
+add_action('init', 'projects_register_taxonomies');
 
 
 /** Register Common Techs */
-function portfolio_insert_default_technologies()
+function projects_insert_default_technologies()
 {
 
     if (!taxonomy_exists('technology')) {
@@ -149,28 +149,28 @@ function portfolio_insert_default_technologies()
     }
 }
 
-add_action('init', 'portfolio_insert_default_technologies', 20);
+add_action('init', 'projects_insert_default_technologies', 20);
 
 
 /** Register Custom Metaboxes */
 
-function portfolio_add_project_meta_box()
+function projects_add_meta_box()
 {
     add_meta_box(
         'project_details',
         'Project Details',
-        'portfolio_render_meta_box',
+        'projects_render_meta_box',
         'project',
         'normal',
         'high'
     );
 }
 
-add_action('add_meta_boxes', 'portfolio_add_project_meta_box');
+add_action('add_meta_boxes', 'projects_add_meta_box');
 
-function portfolio_render_meta_box($post)
+function projects_render_meta_box($post)
 {
-    wp_nonce_field('portfolio_save_meta', 'portfolio_meta_nonce');
+    wp_nonce_field('projects_save_meta', 'projects_meta_nonce');
     $client = get_post_meta($post->ID, '_project_client', true);
     $duration = get_post_meta($post->ID, '_project_duration', true);
     $role = get_post_meta($post->ID, '_project_role', true);
@@ -203,10 +203,10 @@ function portfolio_render_meta_box($post)
 
 
 
-function portfolio_save_project_meta($post_id)
+function projects_save_meta($post_id)
 {
 
-    if (!isset($_POST['portfolio_meta_nonce']) || !wp_verify_nonce($_POST['portfolio_meta_nonce'], 'portfolio_save_meta')) {
+    if (!isset($_POST['projects_meta_nonce']) || !wp_verify_nonce($_POST['projects_meta_nonce'], 'projects_save_meta')) {
         return;
     }
 
@@ -235,30 +235,30 @@ function portfolio_save_project_meta($post_id)
     }
 }
 
-add_action('save_post_project', 'portfolio_save_project_meta');
+add_action('save_post_project', 'projects_save_meta');
 
 
 
-function portfolio_add_project_content_metabox()
+function projects_add_content_metabox()
 {
     add_meta_box(
         'project_content',
         'Project Content',
-        'portfolio_render_project_content_metabox',
+        'projects_render_content_metabox',
         'project',
         'normal',
         'default'
     );
 }
 
-add_action('add_meta_boxes', 'portfolio_add_project_content_metabox');
+add_action('add_meta_boxes', 'projects_add_content_metabox');
 
 
 
 
-function portfolio_render_project_content_metabox($post)
+function projects_render_content_metabox($post)
 {
-    wp_nonce_field('portfolio_save_project_content', 'portfolio_project_content_nonce');
+    wp_nonce_field('projects_save_content', 'project_content_nonce');
 
     $items = get_post_meta($post->ID, '_project_content', true);
     if (!is_array($items)) $items = [];
@@ -366,11 +366,11 @@ function portfolio_render_project_content_metabox($post)
 }
 
 
-function portfolio_save_project_content($post_id)
+function projects_save_content($post_id)
 {
     if (
-        !isset($_POST['portfolio_project_content_nonce']) ||
-        !wp_verify_nonce($_POST['portfolio_project_content_nonce'], 'portfolio_save_project_content')
+        !isset($_POST['project_content_nonce']) ||
+        !wp_verify_nonce($_POST['project_content_nonce'], 'projects_save_content')
     ) {
         return;
     }
@@ -398,11 +398,11 @@ function portfolio_save_project_content($post_id)
         delete_post_meta($post_id, '_project_content');
     }
 }
-add_action('save_post_project', 'portfolio_save_project_content');
+add_action('save_post_project', 'projects_save_content');
 
 
 
-function portfolio_register_rest_fields()
+function projects_register_rest_fields()
 {
 
     $fields = [
@@ -423,4 +423,180 @@ function portfolio_register_rest_fields()
     }
 }
 
-add_action('rest_api_init', 'portfolio_register_rest_fields');
+add_action('rest_api_init', 'projects_register_rest_fields');
+
+
+function experience_register_cpt()
+{
+    $args = array(
+        'labels' => array(
+            'name'               => 'Work Experiences',
+            'singular_name'      => 'Position',
+            'add_new'            => 'Add New',
+            'add_new_item'       => 'Add New Work Experience',
+            'edit_item'          => 'Edit Position',
+            'new_item'           => 'New Work Experience',
+            'view_item'          => 'View Position',
+            'search_items'       => 'Search Positions',
+            'not_found'          => 'No positions found',
+            'not_found_in_trash' => 'No positions found in Trash',
+        ),
+        'public'       => true,
+        'has_archive'  => false,
+        'show_in_rest' => true,
+        'menu_icon'    => 'dashicons-businessperson',
+        'supports'     => array('title', 'excerpt'),
+    );
+    register_post_type('experience', $args);
+}
+add_action('init', 'experience_register_cpt');
+
+function experience_add_meta_box()
+{
+    add_meta_box(
+        'experience_details',
+        'Position Details',
+        'experience_render_meta_box',
+        'experience',
+        'normal',
+        'high'
+    );
+}
+add_action('add_meta_boxes', 'experience_add_meta_box');
+
+
+function experience_render_meta_box($post)
+{
+    wp_nonce_field('experience_save_meta', 'experience_meta_nonce');
+    $position = get_post_meta($post->ID, '_position', true);
+    $start_date = get_post_meta($post->ID, '_start_date', true);
+    $end_date = get_post_meta($post->ID, '_end_date', true);
+    $currently_working = get_post_meta($post->ID, '_currently_working', true);
+    $company = get_post_meta($post->ID, '_company', true);
+    $company_url = get_post_meta($post->ID, '_company_url', true);
+    $location = get_post_meta($post->ID, '_location', true);
+    $responsabilities = get_post_meta($post->ID, '_responsabilities', true);
+?>
+    <div class="experience-content-item">
+        <div class="portfolio-row">
+            <div class="portfolio-field col-2 ">
+                <label for="company">Position:</label>
+                <input type="text" name="position" value="<?php echo esc_attr($position); ?>" placeholder="Position">
+            </div>
+            <div class="portfolio-field col-2 ">
+                <label for="company">Company:</label>
+                <input type="text" name="company" value="<?php echo esc_attr($company); ?>" placeholder="Company Name">
+            </div>
+            <div class="portfolio-field col-2 ">
+                <label for="company">Company Link:</label>
+                <input type="text" name="company_url" value="<?php echo esc_attr($company_url); ?>" placeholder="Company Website">
+            </div>
+            <div class="portfolio-field col-2 ">
+                <label for="company">Company Location:</label>
+                <input type="text" name="location" value="<?php echo esc_attr($location); ?>" placeholder="Location">
+            </div>
+            <div class="portfolio-field col-1 ">
+                <label for="start_date">Start date:</label>
+                <input type="text" name="start_date" value="<?php echo esc_attr($start_date); ?>" placeholder="January 2024">
+            </div>
+            <div class="portfolio-field col-1 ">
+                <label for="end_date">End date:</label>
+                <input type="text" name="end_date" value="<?php echo esc_attr($end_date); ?>" placeholder="January 2024">
+            </div>
+            <div class="portfolio-field col-1 ">
+                <div class="checkbox">
+                    <input type="checkbox" name="currently_working" value="1" <?php checked($currently_working, '1'); ?>>
+                    <span> Currently working here</span>
+                </div>
+            </div>
+            <div class="portfolio-field col-4">
+                <label>Responsibilities</label>
+                <?php
+                wp_editor($responsabilities, 'responsabilities', array(
+                    'textarea_name' => 'responsabilities',
+                    'media_buttons' => false,
+                    'textarea_rows' => 10,
+                    'teeny' => true,
+                ));
+                ?>
+            </div>
+        </div>
+    </div>
+
+<?php
+
+}
+
+
+function experience_save_meta($post_id)
+{
+    if (!isset($_POST['experience_meta_nonce']) || !wp_verify_nonce($_POST['experience_meta_nonce'], 'experience_save_meta')) {
+        return;
+    }
+
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+
+    if (!current_user_can('edit_post', $post_id)) {
+        return;
+    }
+
+    if (isset($_POST['position'])) {
+        update_post_meta($post_id, '_position', sanitize_text_field($_POST['position']));
+    }
+
+    if (isset($_POST['company'])) {
+        update_post_meta($post_id, '_company', sanitize_text_field($_POST['company']));
+    }
+
+    if (isset($_POST['company_url'])) {
+        update_post_meta($post_id, '_company_url', esc_url_raw($_POST['company_url']));
+    }
+
+    if (isset($_POST['location'])) {
+        update_post_meta($post_id, '_location', sanitize_text_field($_POST['location']));
+    }
+
+    if (isset($_POST['start_date'])) {
+        update_post_meta($post_id, '_start_date', sanitize_text_field($_POST['start_date']));
+    }
+
+    if (isset($_POST['end_date'])) {
+        update_post_meta($post_id, '_end_date', sanitize_text_field($_POST['end_date']));
+    }
+
+    $currently_working = isset($_POST['currently_working']) ? '1' : '0';
+    update_post_meta($post_id, '_currently_working', $currently_working);
+
+    if (isset($_POST['responsabilities'])) {
+        update_post_meta($post_id, '_responsabilities', sanitize_textarea_field($_POST['responsabilities']));
+    }
+}
+add_action('save_post', 'experience_save_meta');
+
+
+function experience_register_rest_fields()
+{
+    $fields = [
+        'position'           => '_position',
+        'company'            => '_company',
+        'company_url'        => '_company_url',
+        'location'           => '_location',
+        'start_date'         => '_start_date',
+        'end_date'           => '_end_date',
+        'currently_working'  => '_currently_working',
+        'responsabilities'   => '_responsabilities',
+    ];
+
+    foreach ($fields as $rest_key => $meta_key) {
+        register_rest_field('experience', $rest_key, [
+            'get_callback' => function ($object) use ($meta_key) {
+                return get_post_meta($object['id'], $meta_key, true);
+            },
+            'schema' => null,
+        ]);
+    }
+}
+
+add_action('rest_api_init', 'experience_register_rest_fields');

@@ -1,11 +1,14 @@
-.project-content-item {
+.project-content-item,
+.experience-content-item {
     padding: 24px;
 }
 
+.experience-content-item:nth-child(even),
 .project-content-item:nth-child(even) {
     background: #f9f9f9;
 }
 
+.experience-content-item h4,
 .project-content-item h4 {
     font-size: 24px;
     font-weight: bold;
@@ -94,4 +97,14 @@
 
 .image-preview {
     max-width: 200px;
+}
+
+.portfolio-field .checkbox {
+    display: flex;
+    align-items: flex-end;
+    height: 100%;
+}
+
+.portfolio-field .checkbox input[type="checkbox"] {
+    width: auto;
 }

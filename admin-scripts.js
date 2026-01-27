@@ -49,3 +49,28 @@ jQuery(document).ready(function ($) {
         $(this).hide();
     });
 });
+
+
+jQuery(document).ready(function ($) {
+    var endDateInput = $('input[name="end_date"]');
+    var checkboxInput = $('input[name="currently_working"]');
+
+    function toggleInputs() {
+        if (endDateInput.val().trim() !== '') {
+            checkboxInput.prop('disabled', true);
+            checkboxInput.prop('checked', false);
+        }
+        else if (checkboxInput.is(':checked')) {
+            endDateInput.prop('disabled', true);
+            endDateInput.val('');
+        }
+        else {
+            endDateInput.prop('disabled', false);
+            checkboxInput.prop('disabled', false);
+        }
+    }
+
+    toggleInputs();
+    endDateInput.on('input', toggleInputs);
+    checkboxInput.on('change', toggleInputs);
+});
