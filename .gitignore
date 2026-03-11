@@ -2,3 +2,5 @@
 .vscode/
 .idea/
 *.log
+.vscode/sftp.json
+**/sftp.json
