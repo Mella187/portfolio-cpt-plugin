@@ -350,16 +350,13 @@ function projects_render_content_metabox($post)
 
         <?php foreach ($items as $index => $item): ?>
             <div class="repeater-item">
-                <div class="flex-row space-between ">
-                    <h4>Item <?php echo $index + 1; ?></h4>
-                    <div class="portfolio-field full-width-field  <?php echo $index === 0 ? '' : 'hidden'; ?>">
-                        <div class="fullwidth-toggle flex-row gap-8">
-                            <input type="checkbox" name="project_content[<?php echo $index; ?>][full_width]" value="1" <?php checked($item['full_width'] ?? '', '1'); ?>>
-                            <label> Full width </label>
-                        </div>
-                    </div>
+                <h4>Item <?php echo $index + 1; ?></h4>
+                <div class="portfolio-field full-width-field" style="<?php echo $index === 0 ? '' : 'display:none;'; ?> margin-bottom:12px;">
+                    <label style="display:flex; align-items:center; gap:8px; font-weight:normal;">
+                        <input type="checkbox" name="project_content[<?php echo $index; ?>][full_width]" value="1" <?php checked($item['full_width'] ?? '', '1'); ?>>
+                        Full width
+                    </label>
                 </div>
-
                 <div class="portfolio-row ">
                     <div class="portfolio-field col-2">
                         <label>Title</label>
@@ -378,12 +375,12 @@ function projects_render_content_metabox($post)
                     </div>
                     <div class="portfolio-field col-3">
                         <label>Gallery</label>
-                        <div class="gallery-wrapper">
+                        <div class="gallery-wrapper" style="display:flex; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
                             <?php foreach ($item['gallery'] ?? [] as $url): ?>
-                                <div class="gallery-item relative">
-                                    <img src="<?php echo esc_url($url); ?>">
+                                <div class="gallery-item" style="position:relative;">
+                                    <img src="<?php echo esc_url($url); ?>" style="width:120px; height:80px; object-fit:cover; display:block;">
                                     <input type="hidden" name="project_content[<?php echo $index; ?>][gallery][]" value="<?php echo esc_attr($url); ?>">
-                                    <button type="button" class="button gallery-remove-image">✕</button>
+                                    <button type="button" class="button gallery-remove-image" style="position:absolute; top:2px; right:2px; padding:0 4px;">✕</button>
                                 </div>
                             <?php endforeach; ?>
                         </div>
@@ -440,16 +437,13 @@ function projects_render_content_metabox($post)
     <!-- Template hidden -->
     <template id="project-content-template">
         <div class="repeater-item">
-            <div class="flex-row space-between">
-                <h4>New Item</h4>
-                <div class="portfolio-field full-width-field hidden  ">
-                    <div class="fullwidth-toggle flex-row gap-8">
-                        <input type="checkbox" name="project_content[<?php echo $index; ?>][full_width]" value="1" <?php checked($item['full_width'] ?? '', '1'); ?>>
-                        <label> Full width </label>
-                    </div>
-                </div>
+            <h4>New Item</h4>
+            <div class="portfolio-field full-width-field" style="display:none; margin-bottom:12px;">
+                <label style="display:flex; align-items:center; gap:8px; font-weight:normal;">
+                    <input type="checkbox" name="__name__[full_width]" value="1">
+                    Full width
+                </label>
             </div>
-
             <div class="portfolio-row ">
                 <div class="portfolio-field col-2">
                     <label>Title</label>
@@ -468,7 +462,7 @@ function projects_render_content_metabox($post)
                 </div>
                 <div class="portfolio-field col-3">
                     <label>Gallery</label>
-                    <div class="gallery-wrapper"></div>
+                    <div class="gallery-wrapper" style="display:flex; flex-wrap:wrap; gap:10px; margin-bottom:12px;"></div>
                     <button type="button" class="button add-gallery-images">+ Add Images</button>
                 </div>
                 <div class="portfolio-field col-1">
@@ -903,9 +897,9 @@ function about_render_page()
                             <label>Photo:</label>
                             <div class="image-preview-wrapper">
                                 <?php if (!empty($highlight_image)): ?>
-                                    <img src="<?php echo esc_url($highlight_image); ?>" class="image-preview">
+                                    <img src="<?php echo esc_url($highlight_image); ?>" class="image-preview" style="display:block;">
                                 <?php else: ?>
-                                    <img src="" class="image-preview hidden" style="display:none;">
+                                    <img src="" class="image-preview" style="display:none;">
                                 <?php endif; ?>
                                 <input type="hidden" class="project-image-field" name="highlight_image"
                                     value="<?php echo esc_attr($highlight_image); ?>">
@@ -933,7 +927,8 @@ function about_render_page()
                             <div class="image-preview-wrapper">
                                 <?php if (!empty($visor_image)): ?>
                                     <img src="<?php echo esc_url($visor_image); ?>"
-                                        class="image-preview">
+                                        class="image-preview"
+                                        style="display: block;">
                                 <?php else: ?>
                                     <img src="" class="image-preview" style="display: none;">
                                 <?php endif; ?>

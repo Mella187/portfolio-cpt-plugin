@@ -1,4 +1,25 @@
 /* ===== ITEMS CONTAINERS ===== */
+.hidden {
+    display: none;
+}
+
+.relative {
+    position: relative;
+}
+
+.flex-row {
+    display: flex;
+    align-items: center;
+}
+
+.gap-8 {
+    gap: 8px;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
 .repeater-item {
     padding: 16px 24px;
     margin-bottom: 10px;
@@ -16,6 +37,16 @@
 }
 
 /* ===== FORM FIELDS ===== */
+
+.full-width-field {
+    margin-bottom: 12px;
+}
+
+.portfolio-field.full-width-field .fullwidth-toggle input {
+    height: 16px;
+    width: 16px;
+}
+
 .portfolio-field {
     margin-bottom: 20px;
     display: flex;
@@ -86,12 +117,21 @@ button {
     width: max-content;
 }
 
+.gallery-item .button.gallery-remove-image {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    padding: 0 8px;
+}
+
+.gallery-item .button.gallery-remove-image,
 .btn-remove-cta,
 .button.btn-remove {
     border-color: rgb(197, 44, 44) !important;
     color: rgb(197, 44, 44) !important;
 }
 
+.gallery-item .button.gallery-remove-image:hover,
 .btn-remove-cta:hover,
 .button.btn-remove:hover {
     border-color: rgb(177, 33, 33) !important;
@@ -113,6 +153,7 @@ button {
 
 .image-preview {
     max-width: 150px;
+    display: block;
 }
 
 .section {
@@ -123,4 +164,21 @@ button {
     font-size: 24px;
     font-weight: 500;
     margin-bottom: 20px;
+}
+
+/* ===== GALLERY ===== */
+
+.gallery-wrapper {
+    display: flex;
+    margin-bottom: 12px;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+
+.gallery-wrapper img {
+    width: 120px;
+    height: 80px;
+    object-fit: cover;
+    display: block;
 }

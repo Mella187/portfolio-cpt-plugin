@@ -4,6 +4,14 @@ jQuery(document).ready(function ($) {
         initRichEditor(this.id);
     });
 
+    function updateFullWidthVisibility() {
+        $('#project-content-wrapper .repeater-item').each(function (i) {
+            $(this).find('.full-width-field').toggle(i === 0);
+        });
+    }
+
+    updateFullWidthVisibility();
+
     // Add new item
     $("#add-project-content-item").on("click", function () {
         const wrapper = $("#project-content-wrapper");
@@ -18,6 +26,7 @@ jQuery(document).ready(function ($) {
 
         wrapper.append(html);
         initRichEditor('prcontent' + index);
+        updateFullWidthVisibility();
     });
 
     // Remove item 
@@ -33,6 +42,7 @@ jQuery(document).ready(function ($) {
                 destroyRichEditor(this.id);
             });
             item.remove();
+             updateFullWidthVisibility();
         }
     });
 
