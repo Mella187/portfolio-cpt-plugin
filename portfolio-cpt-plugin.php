@@ -81,6 +81,32 @@ function about_enqueue_scripts($hook)
 add_action('admin_enqueue_scripts', 'about_enqueue_scripts');
 
 
+
+function portfolio_enqueue_taxonomy_assets($hook)
+{
+    if ($hook !== 'edit-tags.php' && $hook !== 'term.php') {
+        return;
+    }
+    if (!isset($_GET['taxonomy']) || $_GET['taxonomy'] !== 'technology') {
+        return;
+    }
+    wp_enqueue_script(
+        'portfolio-admin',
+        plugin_dir_url(__FILE__) . 'admin-scripts.js',
+        array('jquery'),
+        '1.0.0',
+        true
+    );
+    wp_enqueue_style(
+        'portfolio-admin-style',
+        plugin_dir_url(__FILE__) . 'admin-style.css',
+        array(),
+        '1.0.0'
+    );
+}
+add_action('admin_enqueue_scripts', 'portfolio_enqueue_taxonomy_assets');
+
+
 // Register CPT 
 
 function projects_register_cpt()
@@ -185,9 +211,14 @@ function technology_add_main_skill_field()
 ?>
     <div class="form-field">
         <label>
-            <input type="checkbox" name="is_main_skill" value="1">
+            <input type="checkbox" name="is_main_skill" id="is_main_skill_new" value="1">
             Main Skill (show in About page)
         </label>
+    </div>
+    <div class="form-field" id="skill_order_field_new" style="display:none;">
+        <label for="skill_order">Display Order</label>
+        <input type="number" name="skill_order" id="skill_order" min="1" step="1">
+        <p>Lower number = shown first.</p>
     </div>
 <?php
 }
@@ -197,11 +228,21 @@ add_action('technology_add_form_fields', 'technology_add_main_skill_field');
 function technology_edit_main_skill_field($term)
 {
     $is_main = get_term_meta($term->term_id, 'is_main_skill', true);
+    $order   = get_term_meta($term->term_id, 'skill_order', true);
 ?>
     <tr class="form-field">
         <th scope="row"><label>Is this a main skill?</label></th>
         <td>
-            <input type="checkbox" name="is_main_skill" value="1" <?php checked($is_main, '1'); ?>>
+            <input type="checkbox" name="is_main_skill" id="is_main_skill_edit" value="1" <?php checked($is_main, '1'); ?>>
+        </td>
+    </tr>
+    <tr class="form-field" id="skill_order_field_edit" style="<?php echo $is_main ? '' : 'display:none;'; ?>">
+        <th scope="row"><label for="skill_order">Display Order</label></th>
+        <td>
+            <input type="number" name="skill_order" id="skill_order"
+                value="<?php echo esc_attr($order); ?>"
+                min="1" step="1">
+            <p class="description">Lower number = shown first.</p>
         </td>
     </tr>
 <?php
@@ -216,6 +257,12 @@ function save_technology_main_skill($term_id)
     } else {
         delete_term_meta($term_id, 'is_main_skill');
     }
+
+    if (isset($_POST['skill_order']) && $_POST['skill_order'] !== '') {
+        update_term_meta($term_id, 'skill_order', absint($_POST['skill_order']));
+    } else {
+        delete_term_meta($term_id, 'skill_order');
+    }
 }
 add_action('created_technology', 'save_technology_main_skill');
 add_action('edited_technology', 'save_technology_main_skill');
@@ -226,6 +273,14 @@ function technology_register_main_skill_rest()
     register_rest_field('technology', 'is_main_skill', [
         'get_callback' => function ($object) {
             return get_term_meta($object['id'], 'is_main_skill', true) === '1';
+        },
+        'schema' => null,
+    ]);
+
+    register_rest_field('technology', 'skill_order', [
+        'get_callback' => function ($object) {
+            $val = get_term_meta($object['id'], 'skill_order', true);
+            return $val !== '' ? (int) $val : null;
         },
         'schema' => null,
     ]);
@@ -1209,3 +1264,4 @@ function about_get_rest_data()
         ),
     );
 }
+

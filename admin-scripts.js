@@ -264,3 +264,16 @@ jQuery(document).ready(function ($) {
     });
 
 });
+
+
+jQuery(document).ready(function ($) {
+    // form de alta
+    $('#is_main_skill_new').on('change', function () {
+        $('#skill_order_field_new').toggle(this.checked);
+    });
+
+    // form de edición
+    $('#is_main_skill_edit').on('change', function () {
+        $('#skill_order_field_edit').toggle(this.checked);
+    });
+});
