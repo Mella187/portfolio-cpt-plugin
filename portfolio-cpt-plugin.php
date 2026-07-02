@@ -588,10 +588,15 @@ function projects_save_content($post_id)
             $clean[] = [
                 'title'     => sanitize_text_field($item['title'] ?? ''),
                 'subtitle'  => sanitize_text_field($item['subtitle'] ?? ''),
-                'content' => wp_kses_post($item['content'] ?? ''),
-                'gallery' => isset($item['gallery']) && is_array($item['gallery'])
-                    ? array_map('esc_url_raw', $item['gallery'])
-                    : [],
+                'content' => wp_kses($item['content'] ?? '', array_merge(wp_kses_allowed_html('post'), array(
+                    'pre'    => array('class' => true, 'data-*' => true),
+                    'code'   => array('class' => true, 'data-*' => true),
+                    'span'   => array('class' => true, 'style' => true),
+                    'div'    => array('class' => true, 'style' => true, 'data-*' => true),
+                    'script' => array('type' => true, 'src' => true),
+                    'iframe' => array('src' => true, 'width' => true, 'height' => true, 'frameborder' => true, 'allowfullscreen' => true),
+                ))),
+                'gallery' => isset($item['gallery']) && is_array($item['gallery']),
                 'layout'    => sanitize_text_field($item['layout'] ?? 'stack'),
                 'full_width' => $index === 0 ? (isset($item['full_width']) ? '1' : '') : '',
                 'ctas' => (function () use ($item) {
@@ -1264,4 +1269,3 @@ function about_get_rest_data()
         ),
     );
 }
-

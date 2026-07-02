@@ -42,7 +42,7 @@ jQuery(document).ready(function ($) {
                 destroyRichEditor(this.id);
             });
             item.remove();
-             updateFullWidthVisibility();
+            updateFullWidthVisibility();
         }
     });
 
@@ -144,8 +144,12 @@ function initRichEditor(editorId) {
     wp.editor.initialize(editorId, {
         tinymce: {
             wpautop: true,
-            plugins: 'lists paste',
-            toolbar1: 'bold italic | bullist numlist | removeformat',
+            plugins: 'lists paste code',
+            toolbar1: 'bold italic | bullist numlist | removeformat | code',
+            extended_valid_elements: 'pre[class|data-*],code[class|data-*],span[class|style],div[class|style|data-*],script[type|src],iframe[src|width|height|frameborder|allowfullscreen]',
+            paste_as_text: false,
+            paste_webkit_styles: 'none',
+            paste_remove_styles_if_webkit: true,
         },
         quicktags: true,
         mediaButtons: false,
