@@ -134,6 +134,17 @@ jQuery(document).ready(function ($) {
         toggleLayoutVisibility(item);
     });
 
+    $('form#post').on('submit', function () {
+        $('.project-rich-editor').each(function () {
+            var editorId = this.id;
+            var tmce = typeof tinymce !== 'undefined' ? tinymce.get(editorId) : null;
+            if (tmce && tmce.isHidden()) {
+            } else if (tmce) {
+                tmce.save();
+            }
+        });
+    });
+
 });
 
 function initRichEditor(editorId) {
@@ -144,9 +155,10 @@ function initRichEditor(editorId) {
     wp.editor.initialize(editorId, {
         tinymce: {
             wpautop: true,
-            plugins: 'lists paste code',
-            toolbar1: 'bold italic | bullist numlist | removeformat | code',
-            extended_valid_elements: 'pre[class|data-*],code[class|data-*],span[class|style],div[class|style|data-*],script[type|src],iframe[src|width|height|frameborder|allowfullscreen]',
+            plugins: 'lists paste',
+            toolbar1: 'bold italic | bullist numlist | removeformat',
+            valid_elements: '*[*]',
+            extended_valid_elements: '*[*]',
             paste_as_text: false,
             paste_webkit_styles: 'none',
             paste_remove_styles_if_webkit: true,

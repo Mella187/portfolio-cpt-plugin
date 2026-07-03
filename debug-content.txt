@@ -1,0 +1,126 @@
+Array
+(
+    [0] => Array
+        (
+            [title] => Context & The Core Challenge
+            [subtitle] => Solving 2,000 person seat coordination in 2 months
+            [content] => 
+            [layout] => stack
+        )
+
+    [1] => Array
+        (
+            [title] => The Challenge
+            [subtitle] => 
+            [content] => <p data-start=\"247\" data-end=\"490\">Attendees needed to select their seats for the gala, but the process involved coordinating <strong data-start=\"338\" data-end=\"365\">2,000 paid reservations</strong>, leaving little room for error. Any mistake in seat assignment could lead to confusion and logistical issues on event night.</p>
+<p data-start=\"492\" data-end=\"698\"><strong>Two user groups</strong> had to be supported: <strong data-start=\"529\" data-end=\"542\">operators</strong>, responsible for managing theater data and buyer imports, and <strong data-start=\"605\" data-end=\"618\">attendees</strong>, many of whom held multiple tickets and had varying levels of digital literacy.</p>
+<p data-start=\"700\" data-end=\"884\">For the system to work reliably, three tasks had to happen seamlessly: compiling the venue layout, organizing buyer data, and allowing users to reserve their seats in just a few steps <strong data-start=\"980\" data-end=\"1023\">while preventing duplicate reservations</strong>.</p>
+<p data-start=\"886\" data-end=\"1033\">The challenge was not only technical but experiential: <strong data-start=\"942\" data-end=\"1033\">turning a complex coordination problem into a simple and frictionless reservation flow.</strong></p>
+            [layout] => stack
+        )
+
+    [2] => Array
+        (
+            [title] => Insights & Key Requirements
+            [subtitle] => 
+            [content] => <p data-start=\"648\" data-end=\"1014\">After researching existing <strong data-start=\"340\" data-end=\"368\">seat reservation systems</strong>, no solution was found that met all of the client’s <strong data-start=\"421\" data-end=\"451\">customization requirements</strong>. The solution focused on two main flows:<br /><br /></p>
+            [layout] => stack
+        )
+
+    [3] => Array
+        (
+            [title] => 
+            [subtitle] => Operator flow
+            [content] => <p><strong data-start=\"517\" data-end=\"541\">Importing buyer data</strong> from spreadsheets and automatically linking each attendee to their <strong data-start=\"609\" data-end=\"628\">ticket quantity</strong>, <strong data-start=\"630\" data-end=\"646\">seating area</strong>, and <strong data-start=\"652\" data-end=\"661\">email</strong>.</p>
+            [layout] => stack
+        )
+
+    [4] => Array
+        (
+            [title] => 
+            [subtitle] => Attendee flow
+            [content] => <p><strong data-start=\"686\" data-end=\"712\">Reservation experience</strong> via a <strong data-start=\"719\" data-end=\"735\">secure token</strong> and <strong data-start=\"740\" data-end=\"755\">unique link</strong>, with a <strong data-start=\"764\" data-end=\"784\">no-login process</strong> to select <strong data-start=\"795\" data-end=\"804\">seats</strong>. <strong data-start=\"806\" data-end=\"815\">Seats</strong> were temporarily <strong data-start=\"833\" data-end=\"843\">locked</strong> during selection to prevent duplicates, and users received a <strong data-start=\"905\" data-end=\"927\" data-is-only-node=\"\">confirmation email</strong> with their <strong data-start=\"939\" data-end=\"955\">seat summary</strong> once confirmed.</p>
+            [layout] => stack
+        )
+
+    [5] => Array
+        (
+            [title] => 
+            [subtitle] => 
+            [content] => <p data-start=\"975\" data-end=\"1266\">The system generated the <strong data-start=\"1000\" data-end=\"1026\">theater seating layout</strong> with different <strong data-start=\"1042\" data-end=\"1058\">ticket areas</strong> and supported <strong data-start=\"1073\" data-end=\"1091\">seat selection</strong> on <strong data-start=\"1095\" data-end=\"1106\">desktop</strong> and <strong data-start=\"1111\" data-end=\"1129\">mobile devices</strong>. The main challenge on <strong data-start=\"1153\" data-end=\"1163\">mobile</strong> was designing an <strong data-start=\"1181\" data-end=\"1204\">intuitive interface</strong> showing the <strong data-start=\"1217\" data-end=\"1229\">seat map</strong> and its <strong data-start=\"1238\" data-end=\"1263\">relation to the stage</strong>.</p>
+            [layout] => stack
+        )
+
+    [6] => Array
+        (
+            [title] => Iteration
+            [subtitle] => 
+            [content] => <p data-start=\"135\" data-end=\"368\">The client requested <strong data-start=\"156\" data-end=\"180\">one token per ticket</strong>, requiring buyers with multiple tickets to access the system multiple times. I explained the <strong data-start=\"274\" data-end=\"283\">risks</strong>, but it was only after visualizing the flow that the client fully understood them.</p>
+<p data-start=\"370\" data-end=\"601\">The solution was revised to <strong data-start=\"398\" data-end=\"427\">one token per buyer group</strong>, allowing all seats to be selected in a single session and shared with other group members if needed. This simplified the experience and ensured groups could sit together.</p>
+            [layout] => stack
+        )
+
+    [7] => Array
+        (
+            [title] => Experience
+            [subtitle] => Operator Flow
+            [content] => <p>The operator uploads Excel files containing theater and seating data, and the system generates a dynamic seating chart. <br />Then, the operator uploads user data, and the system creates a table displaying all user information, available seats, seat types, seat status, notes, and an action area to manage seats if needed.</p>
+            [layout] => stack
+        )
+
+    [8] => Array
+        (
+            [title] => 
+            [subtitle] => User Flow
+            [content] => <p><span style=\"font-weight: 400;\">Attendees received a </span><strong>unique reservation link</strong><span style=\"font-weight: 400;\">, accessed the system without login, and saw the number of seats available to them and their assigned section.</span></p>
+<p><span style=\"font-weight: 400;\">Seat selection happened through an </span><strong>interactive seating map</strong><span style=\"font-weight: 400;\"> with zoom and stage reference. On mobile devices, the map was divided into quadrants to make navigation easier and seats were optimized for touch interaction.</span></p>
+<p><span style=\"font-weight: 400;\">After selecting seats, users confirmed their reservation and received an email with the final details.</span></p>
+            [layout] => stack
+        )
+
+    [9] => Array
+        (
+            [title] => 
+            [subtitle] => 
+            [content] => 
+            [layout] => stack
+            [ctas] => Array
+                (
+                    [0] => Array
+                        (
+                            [cta] => View Figma File
+                            [link] => https://www.figma.com/design/eIe9XMA5lvd0hPq06yi4hp/Seat-Selector?node-id=0-1&t=qh1K6XcGLDHEk04C-1
+                        )
+
+                    [1] => Array
+                        (
+                            [cta] => View Interactive Prototype
+                            [link] => https://www.figma.com/proto/eIe9XMA5lvd0hPq06yi4hp/Seat-Selector?page-id=1%3A2&node-id=25-19259&p=f&viewport=333%2C257%2C0.27&t=efeAsU81zf1Vjahn-1&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=25%3A19259
+                        )
+
+                )
+
+        )
+
+    [10] => Array
+        (
+            [title] => Results
+            [subtitle] => 
+            [content] => <p data-start=\"130\" data-end=\"527\">The system enabled <strong data-start=\"173\" data-end=\"196\">all 2,000 attendees</strong> to reserve seats with <strong data-start=\"219\" data-end=\"238\">minimal support</strong> from the event team.</p>
+<p data-start=\"130\" data-end=\"527\">Most users completed the process <strong data-start=\"293\" data-end=\"310\">independently</strong>, with rare operator intervention and <strong data-start=\"348\" data-end=\"381\">no duplicate seat assignments</strong>.</p>
+<p data-start=\"130\" data-end=\"527\">The experience worked reliably on <strong data-start=\"417\" data-end=\"444\">both desktop and mobile</strong>, allowing users to manage <strong data-start=\"471\" data-end=\"524\">multiple tickets within a single reservation flow</strong>.</p>
+<p data-start=\"529\" data-end=\"768\"><strong>As a next step</strong>, the client expressed interest in developing an <strong data-start=\"592\" data-end=\"636\">app to manage multiple venues and events</strong> as part of larger experiences.</p>
+<p data-start=\"529\" data-end=\"768\">The conceptual and design proposal has been completed, though it has not yet been implemented.</p>
+            [layout] => stack
+        )
+
+    [11] => Array
+        (
+            [title] => Learnings
+            [subtitle] => 
+            [content] => <p>This project taught me the importance of <strong data-start=\"842\" data-end=\"864\">carefully planning</strong> and <strong data-start=\"869\" data-end=\"905\">clearly communicating user flows</strong> to prevent future issues, especially when working under <strong data-start=\"962\" data-end=\"996\">tight implementation timelines</strong>.</p>
+<p>It also reinforced how powerful <strong data-start=\"1030\" data-end=\"1040\">design</strong> can be when solving <strong data-start=\"1061\" data-end=\"1118\">visualization and information-organization challenges</strong>, making it possible to build <strong data-start=\"1148\" data-end=\"1167\">complex systems</strong> that remain clear and usable even within <strong data-start=\"1209\" data-end=\"1233\" data-is-only-node=\"\">limited screen space</strong>.</p>
+            [layout] => stack
+        )
+
+)
