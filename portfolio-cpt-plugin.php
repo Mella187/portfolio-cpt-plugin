@@ -34,7 +34,7 @@ function portfolio_enqueue_admin_assets($hook)
     wp_enqueue_script(
         'portfolio-admin',
         plugin_dir_url(__FILE__) . 'admin-scripts.js',
-        array('jquery'),
+        array('jquery', 'jquery-ui-sortable'),
         '1.0.0',
         true
     );
@@ -406,7 +406,10 @@ function projects_render_content_metabox($post)
         <?php foreach ($items as $index => $item): ?>
             <div class="repeater-item">
                 <div class="flex-row space-between ">
-                    <h4>Item <?php echo $index + 1; ?></h4>
+                    <div class="flex-row gap-8">
+                        <span class="drag-handle" title="Arrastra para reordenar">⠿</span>
+                        <h4>Item <?php echo $index + 1; ?></h4>
+                    </div>
                     <div class="portfolio-field full-width-field  <?php echo $index === 0 ? '' : 'hidden'; ?>">
                         <div class="fullwidth-toggle flex-row gap-8">
                             <input type="checkbox" name="project_content[<?php echo $index; ?>][full_width]" value="1" <?php checked($item['full_width'] ?? '', '1'); ?>>
@@ -496,7 +499,10 @@ function projects_render_content_metabox($post)
     <template id="project-content-template">
         <div class="repeater-item">
             <div class="flex-row space-between">
-                <h4>New Item</h4>
+                <div class="flex-row gap-8">
+                    <span class="drag-handle" title="Arrastra para reordenar">⠿</span>
+                    <h4>New Item</h4>
+                </div>
                 <div class="portfolio-field full-width-field hidden  ">
                     <div class="fullwidth-toggle flex-row gap-8">
                         <input type="checkbox" name="project_content[<?php echo $index; ?>][full_width]" value="1" <?php checked($item['full_width'] ?? '', '1'); ?>>
@@ -584,7 +590,12 @@ function projects_save_content($post_id)
         file_put_contents(WP_CONTENT_DIR . '/debug-content.txt', print_r($_POST['project_content'], true));
 
         $clean = [];
+        $position = 0;
 
+        // Nota: se itera en el orden en que llegan los campos en el POST, que
+        // sigue el orden visual del formulario (drag & drop reordena el DOM,
+        // no los índices originales del name). Por eso "full_width" se decide
+        // por $position (orden real de guardado) y no por $index (índice viejo).
         foreach ($_POST['project_content'] as $index => $item) {
             $clean[] = [
                 'title'     => sanitize_text_field($item['title'] ?? ''),
@@ -592,7 +603,7 @@ function projects_save_content($post_id)
                 'content' => wp_unslash($item['content'] ?? ''),
                 'gallery' => isset($item['gallery']) && is_array($item['gallery']) ? array_map('esc_url_raw', $item['gallery']) : [],
                 'layout'    => sanitize_text_field($item['layout'] ?? 'stack'),
-                'full_width' => $index === 0 ? (isset($item['full_width']) ? '1' : '') : '',
+                'full_width' => $position === 0 ? (isset($item['full_width']) ? '1' : '') : '',
                 'ctas' => (function () use ($item) {
                     $ctas = [];
                     foreach (array_values($item['ctas'] ?? []) as $c) {
@@ -605,6 +616,7 @@ function projects_save_content($post_id)
                 })(),
                 'link'      => esc_url_raw($item['link'] ?? ''),
             ];
+            $position++;
         }
 
         update_post_meta($post_id, '_project_content', $clean);

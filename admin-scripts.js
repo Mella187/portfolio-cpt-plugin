@@ -10,7 +10,33 @@ jQuery(document).ready(function ($) {
         });
     }
 
+    function renumberProjectItems() {
+        $('#project-content-wrapper .repeater-item').each(function (i) {
+            $(this).find('> .flex-row.space-between h4').first().text('Item ' + (i + 1));
+        });
+    }
+
     updateFullWidthVisibility();
+
+    // Drag & drop reorder
+    if ($.fn.sortable) {
+        $('#project-content-wrapper').sortable({
+            handle: '.drag-handle',
+            items: '> .repeater-item',
+            placeholder: 'repeater-item-placeholder',
+            forcePlaceholderSize: true,
+            start: function () {
+                $('#project-content-wrapper iframe').css('pointer-events', 'none');
+            },
+            stop: function () {
+                $('#project-content-wrapper iframe').css('pointer-events', '');
+            },
+            update: function () {
+                updateFullWidthVisibility();
+                renumberProjectItems();
+            }
+        });
+    }
 
     // Add new item
     $("#add-project-content-item").on("click", function () {
@@ -27,6 +53,7 @@ jQuery(document).ready(function ($) {
         wrapper.append(html);
         initRichEditor('prcontent' + index);
         updateFullWidthVisibility();
+        renumberProjectItems();
     });
 
     // Remove item 
@@ -43,6 +70,7 @@ jQuery(document).ready(function ($) {
             });
             item.remove();
             updateFullWidthVisibility();
+            renumberProjectItems();
         }
     });
 

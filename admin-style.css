@@ -24,6 +24,7 @@
     padding: 16px 24px;
     margin-bottom: 10px;
     border: 1px solid #ddd;
+    background: #fff;
 }
 
 .repeater-item:nth-child(even) {
@@ -34,6 +35,29 @@
     font-size: 18px;
     font-weight: 500;
     margin: 0 0 12px 0;
+}
+
+.drag-handle {
+    cursor: grab;
+    font-size: 20px;
+    line-height: 1;
+    color: #888;
+    user-select: none;
+}
+
+.drag-handle:active {
+    cursor: grabbing;
+}
+
+.ui-sortable-helper {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.repeater-item-placeholder {
+    border: 2px dashed #F97316;
+    background: rgba(249, 115, 22, 0.08);
+    margin-bottom: 10px;
+    height: 60px;
 }
 
 /* ===== FORM FIELDS ===== */
