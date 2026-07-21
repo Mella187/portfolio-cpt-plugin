@@ -393,6 +393,12 @@ add_action('add_meta_boxes', 'projects_add_content_metabox');
 
 
 
+function portfolio_is_video_url($url)
+{
+    $ext = strtolower(pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_EXTENSION));
+    return in_array($ext, array('mp4', 'webm', 'ogg', 'mov'), true);
+}
+
 function projects_render_content_metabox($post)
 {
     wp_nonce_field('projects_save_content', 'project_content_nonce');
@@ -439,13 +445,17 @@ function projects_render_content_metabox($post)
                         <div class="gallery-wrapper">
                             <?php foreach ($item['gallery'] ?? [] as $url): ?>
                                 <div class="gallery-item relative">
-                                    <img src="<?php echo esc_url($url); ?>">
+                                    <?php if (portfolio_is_video_url($url)): ?>
+                                        <video src="<?php echo esc_url($url); ?>" controls muted></video>
+                                    <?php else: ?>
+                                        <img src="<?php echo esc_url($url); ?>">
+                                    <?php endif; ?>
                                     <input type="hidden" name="project_content[<?php echo $index; ?>][gallery][]" value="<?php echo esc_attr($url); ?>">
                                     <button type="button" class="button gallery-remove-image">✕</button>
                                 </div>
                             <?php endforeach; ?>
                         </div>
-                        <button type="button" class="button add-gallery-images">+ Add Images</button>
+                        <button type="button" class="button add-gallery-images">+ Add Images/Videos</button>
                     </div>
                     <div class="portfolio-field col-1">
                         <label>Layout</label>
@@ -530,7 +540,7 @@ function projects_render_content_metabox($post)
                 <div class="portfolio-field col-3">
                     <label>Gallery</label>
                     <div class="gallery-wrapper"></div>
-                    <button type="button" class="button add-gallery-images">+ Add Images</button>
+                    <button type="button" class="button add-gallery-images">+ Add Images/Videos</button>
                 </div>
                 <div class="portfolio-field col-1">
                     <label>Layout</label>

@@ -138,14 +138,18 @@ jQuery(document).ready(function ($) {
         const titleInput = repeaterItem.find('input[name$="[title]"]').first();
         const baseName = titleInput.attr('name').replace('[title]', '');
 
-        const frame = wp.media({ title: 'Select Images', multiple: true });
+        const frame = wp.media({ title: 'Select Images or Videos', multiple: true });
 
         frame.on('select', function () {
             frame.state().get('selection').each(function (attachment) {
-                const url = attachment.toJSON().url;
+                const data = attachment.toJSON();
+                const url = data.url;
+                const media = data.type === 'video'
+                    ? `<video src="${url}" style="width:120px; height:80px; object-fit:cover; display:block;" controls muted></video>`
+                    : `<img src="${url}" style="width:120px; height:80px; object-fit:cover; display:block;">`;
                 wrapper.append(`
                 <div class="gallery-item" style="position:relative;">
-                    <img src="${url}" style="width:120px; height:80px; object-fit:cover; display:block;">
+                    ${media}
                     <input type="hidden" name="${baseName}[gallery][]" value="${url}">
                     <button type="button" class="button gallery-remove-image" style="position:absolute; top:2px; right:2px; padding:0 4px;">✕</button>
                 </div>`);
