@@ -272,6 +272,36 @@ jQuery(document).ready(function ($) {
 });
 
 
+// Home Highlight Image Upload
+jQuery(document).ready(function ($) {
+
+    $(document).on('click', '.select-project-image', function (e) {
+        e.preventDefault();
+
+        var button = $(this);
+        var wrapper = button.closest('.image-preview-wrapper');
+        var imagePreview = wrapper.find('.image-preview');
+        var imageField = wrapper.find('.project-image-field');
+        var removeBtn = wrapper.find('.btn-remove');
+
+        var frame = wp.media({
+            title: 'Select Image',
+            button: { text: 'Use this image' },
+            multiple: false
+        });
+
+        frame.on('select', function () {
+            var attachment = frame.state().get('selection').first().toJSON();
+            imageField.val(attachment.url);
+            imagePreview.attr('src', attachment.url).removeClass('hidden').show();
+            removeBtn.show();
+        });
+
+        frame.open();
+    });
+});
+
+
 // About Repeaters
 jQuery(document).ready(function ($) {
 
